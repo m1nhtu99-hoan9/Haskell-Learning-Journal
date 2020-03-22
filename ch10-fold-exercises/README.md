@@ -27,3 +27,8 @@ foldr :: (a -> b -> b) -> b -> [a] -> b
 last (scanl f z xs) = foldl f z xs
 head (scanr f z xs) = foldr f z xs
 ```
+
+## Notes on Code Snippets written for Exercises
+
+- In [`database-ex.hs`](./database-ex.hs), mistakes recorded:
+  - In `filterDbDate`: initially pattern-match `_` before `(DataValue a)`
