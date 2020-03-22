@@ -8,6 +8,7 @@ foldr :: (a -> b -> b) -> b -> [a] -> b
 
 [![foldr structured transformation](./.__img/Right-fold-transformation.png)](https://wiki.haskell.org/Fold)
 
+- Right associativity = folding function evaluates from the innermost cons cell to the outermost cons cell
 - `foldr` used in cases where recursive pattern associcating to the right are recognised
 - Folding happens in two stages: _traversal_ and _folding_ (evaluation/reduction of folding function applied to values)
 - Because of two-stage process & non-strict evaluation:

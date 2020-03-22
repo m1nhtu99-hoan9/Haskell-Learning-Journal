@@ -20,6 +20,12 @@ module DatabaseElement_Processing where
   filterDbNumber = foldr exec []
     where exec (Number n) acc = n : acc
           exec _ acc          = acc
+  
+  sumDb :: [DatabaseElement] -> Integer
+  sumDb = sum . filterDbNumber
+
+  avgDb :: [DatabaseElement] -> Double
+  avgDb xs = (/) ((fromIntegral . sumDb) xs) ((fromIntegral . length) xs)
 
   dbCollection :: [DatabaseElement]  
   dbCollection = 
