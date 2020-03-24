@@ -10,7 +10,9 @@ data Garden =
   Garden Gardener FlowerType
   deriving Show
 
-{-- `Farmhouse` & `Farmhouse'` are semantically the same
+{-- @region: Demonstration on defining product types:
+    `Farmhouse` & `Farmhouse'` are semantically the same, 
+    `ExtendedFarmhouse` & `ExtendedFarmhouse'` are semantically the same
 --}
 
 newtype NumCow = NumCow Int deriving (Eq, Show)
@@ -24,3 +26,25 @@ data ExtendedFarmhouse =
 
 type Farmhouse' = Product NumCow NumPig
 type ExtendedFarmhouse' = Product NumCow (Product NumPig NumCow)
+
+-- @endregion
+
+{-- @region: Demonstration on defining sum type:
+    `Animal` & `Animal'` are semantically the same, 
+--}
+
+type Name = String --type alias
+type Age = Int 
+type LovesMud = Bool
+type KilosOfWool = Float
+
+data CowInfo = CowInfo Name Age deriving (Eq, Show)
+data PigInfo = PigInfo Name Age LovesMud deriving (Eq, Show)
+data SheepInfo = SheepInfo Name Age KilosOfWool deriving (Eq, Show)
+
+data Animal = Cow CowInfo |
+              Pig PigInfo |
+              SheepInfo
+              deriving (Eq, Show)
+
+type Animal' = Sum CowInfo (Sum PigInfo SheepInfo)
