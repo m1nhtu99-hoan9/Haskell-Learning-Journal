@@ -32,4 +32,9 @@ head (scanr f z xs) = foldr f z xs
 ## Notes on Code Snippets written for Exercises
 
 - In [`database-ex.hs`](./database-ex.hs), mistakes recorded:
-  - In `filterDbDate`: initially pattern-match `_` before `(DataValue a)`
+  - in `filterDbDate`: initially pattern-match `_` before `(DataValue a)`
+- In [`fold-expmt-01.hs`](./fold-expmt-01.hs), mistake recorded:
+  - attempt to evaluate `filter (< 100) fibs` triggers a bottom and causes heap overbuffered. Fix: use `takeWhile`
+- In [`fold-expmt-01.hs`](./fold-expmt-01.hs): `fibs = scanl (+) 1 (1 : fibs)` seems to be more intuitive than `fibs = 1 : scanl (+) 1 fibs`
+- In [`chapter-exercises.hs`](./chapter-exercises.hs), mistakes recorded:
+  - attempt to use `(++)` on `Char`'s
