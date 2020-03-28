@@ -1,3 +1,6 @@
+data Sum a b = First a | Second b deriving (Eq, Show)
+data Product a b = Product a b deriving (Eq, Show)
+
 data FlowerType = Gardenia
                 | Daisy
                 | Rose 
@@ -33,7 +36,7 @@ type ExtendedFarmhouse' = Product NumCow (Product NumPig NumCow)
     `Animal` & `Animal'` are semantically the same, 
 --}
 
-type Name = String --type alias
+type Name = String --type alias/synonym
 type Age = Int 
 type LovesMud = Bool
 type KilosOfWool = Float
@@ -44,7 +47,9 @@ data SheepInfo = SheepInfo Name Age KilosOfWool deriving (Eq, Show)
 
 data Animal = Cow CowInfo |
               Pig PigInfo |
-              SheepInfo
+              Sheep SheepInfo
               deriving (Eq, Show)
 
 type Animal' = Sum CowInfo (Sum PigInfo SheepInfo)
+
+-- @endregion

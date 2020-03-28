@@ -24,6 +24,10 @@ data constructors -- runtime
 - **cardinality** of a datatype is the number of possible
   values it defines
 
+### Function type is exponential
+
+- function type `foo :: a -> b` have number of inhabitants of (cardinality of `b`) `^` (cardinality of `a`)
+
 ## `newtype`
 
 - `newtype` vs. type synonym/alias (such as `String` is type alias of `[Char]`):
