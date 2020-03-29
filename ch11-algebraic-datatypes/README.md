@@ -43,3 +43,7 @@ data constructors -- runtime
 
 - Distributive property: _Product_ distributes over sums: `a*(b+c) = a*b + a*c`
 - **Normal form** in data declaration need to demonstrate type as sum of products in term of types
+
+## Trivias
+
+- As-pattern
