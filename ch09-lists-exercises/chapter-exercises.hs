@@ -1,4 +1,4 @@
-module Lists_Chapter_Exercises where
+module Chap09.Exercises where
 import Data.Char
 
 onlyCaps :: String -> String 

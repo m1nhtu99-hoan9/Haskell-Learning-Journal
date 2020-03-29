@@ -34,9 +34,28 @@ module AlgebraicDataTypes.BinaryTreeADT where
   testMapTree :: IO ()
   testMapTree = 
     if mapTree (2 ^) testTree' == expectedTree'
-    then putStrLn "Map Tree passed"
-    else putStrLn "Map Tree failed"
+    then putStrLn "\"Map Tree\" passed"
+    else putStrLn "\"Map Tree\" failed"
 
   toListPreOrder :: BinaryTree Integer -> [Integer]
   toListPreOrder Leaf                    = []
   toListPreOrder (Node btLeft v btRight) = concat [[v], (toListPreOrder btLeft), (toListPreOrder btRight)]
+
+  toListInOrder :: BinaryTree Integer -> [Integer]
+  toListInOrder Leaf                    = []
+  toListInOrder (Node btLeft v btRight) = concat [(toListPreOrder btLeft), [v], (toListPreOrder btRight)]
+
+  testPreOrder :: IO ()
+  testPreOrder = 
+    if toListPreOrder testTree' == [1, 3, 4]
+    then putStrLn "\"toListPreOrder\" passed"
+    else putStrLn "\"toListPreOrder\" failed" 
+  
+  testInOrder :: IO ()
+  testInOrder = 
+    if toListInOrder testTree' == [3, 1, 4]
+    then putStrLn "\"toListInOrder\" passed"
+    else putStrLn "\"toListInOrder\" failed" 
+
+  foldrTree :: (Integer -> Integer -> Integer) -> Integer -> BinaryTree Integer -> Integer
+  foldrTree f i bt = foldr f i $ toListInOrder bt
