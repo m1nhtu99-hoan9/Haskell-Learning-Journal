@@ -38,7 +38,8 @@ module Chap11.Exercises where
 
   -- @endregion
 
-  -- @region: As-pattern
+  -- @region: As-pattern.isSubseqOf
+  
   indexOf :: (Eq a) => a -> [a] -> Int
   indexOf x ys = case elemIndex x ys of 
     Just a -> a 
@@ -64,7 +65,23 @@ module Chap11.Exercises where
             case (compare idX idZ) of 
               LT -> isSubseqOf xs (joinWithout x ys)
               _  -> False
-          _       -> isSubseqOf xs (joinWithout x ys)
+          _ -> isSubseqOf xs (joinWithout x ys)
     where (ys', ys'') = splitBy x ys
   
+  -- @endregion
+
+  -- @region: As-pattern.capitaliseWords
+  
+  -- basically recursive version of `splitBy` above
+  
+  splitByDelimiter :: (Eq a) => a -> [a] -> [[a]]
+  splitByDelimiter d = foldr f [[]] 
+    where f el li@(h : r)
+
+  capitalisedTuple :: StringWord -> (StringWord, StringWord)
+  capitalisedTuple x @ (w : ws) =  (x, toUpper w : ws)
+
+  capitaliseWords :: String -> [(String, String)]
+  capitaliseWords ys = map capitalisedTuple (words ys)
+
   -- @endregion
