@@ -1,0 +1,23 @@
+name:                hangman-game
+version:             0.1.0.0
+synopsis:            Hangman Game
+description:         Deadly simple Haskell implementation of Hangman game
+homepage:            https://github.com/mnhthng-thms/Haskell-Learning-Journal/tree/master/ch13-buiding-projects
+license:             BSD3
+license-file:        LICENSE
+author:              MinhTu Thomas Hoang
+maintainer:          minhtu.hoang19@gmail.com
+copyright:           2020 MinhTu Thomas Hoang
+category:            Game
+build-type:          Simple
+extra-source-files:  data/dict.txt
+cabal-version:       >=1.10
+extra-source-files:  README.md
+
+executable hangman
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5,
+                       random, 
+                       split
