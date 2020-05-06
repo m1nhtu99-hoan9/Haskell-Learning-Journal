@@ -1,5 +1,7 @@
 # Chapter 15: Monoids & Semigroups
 
+## Reading Notes
+
 - Algebra-as-typeclass:
 
 ```Haskell
@@ -10,8 +12,8 @@ class Monoid m where
   mconcat = foldr mappend mempty
 ```
 
+- `mempty` is identity value.
 - `<>` is infix version of `mappend`.
-
 - Mappending is less about _combining_ but about _condensing_ or _reducing_.
 
   - For instance, `Maybe` type:
@@ -25,12 +27,27 @@ class Monoid m where
 
 - _List_ forms a _Monoid_ under concatenation. List also has more possible monoids.
 
-## `Integer` Doesn't Have `Monoid` Instance
+### _Commutativity_ vs _Associativity_
+
+- _Commutativity_ is stronger than _Associativity_. For instance, addition and multiplication for the number type are commutative, but `(++)` for the list type is associative.
+  - Distributed systems use commutative monoids in designing and thinking about constraints, which are monoids that guarantee their operation commutes.
+
+### `Integer` Doesn't Have `Monoid` Instance
 
 _Integer_ forms a _Monoid_ under **summation** and **multiplication**. Unique instance rules for these two monoid
 are enforced by using `Data.Monoid.Sum` & `Data.Monoid.Product`.
 
 Generally, the unique instance rule of is enforced by using `newtype` to separate the different monoidal behaviors.
+
+### `QuickCheck`
+
+- Validate associativity:
+
+```Haskell
+\ a b c -> (==) (a + b + c) (a + (b + c))
+\ (<>) a b c -> a <> (b <> c) == (a <> b) <> c
+\ f a b c -> (==) (f (a + b) + f c) (f a + f (b + c))
+```
 
 ## Recorded Errors & Misunderstanding While Doing Exercises
 
