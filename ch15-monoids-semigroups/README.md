@@ -49,6 +49,18 @@ Generally, the unique instance rule of is enforced by using `newtype` to separat
 \ f a b c -> (==) (f (a + b) + f c) (f a + f (b + c))
 ```
 
+### Semigroup
+
+- _Semigroup_ is _Monoid_ without identity: `(a <> b) <> c = a <> (b <> c)`
+
+```Haskell
+class Semigroup a where
+  (<>) :: a -> a -> a
+```
+
+- _Semigroup_ is weaker algebra than _Monoid_.
+- Example: `Data.List.NonEmpty`
+
 ## Recorded Errors & Misunderstanding While Doing Exercises
 
 - In [`optional-monoid.hs`](./optional-monoid.hs):
