@@ -69,3 +69,6 @@ class Semigroup a where
   instance Monoid a => Monoid (Optional a) where
   mappend (Only x1) (Only x2) = mappend x1 x2
   ```
+- In `semigroup-exercises.hs`:
+  - Failed attempt to define `type IdenAssoc = (Eq t, Semigroup t) => Identity t -> Identity t -> Identity t -> Bool`
+  - Misunderstanding about the type definition of `boolConjGen` as I attempted: `boolConjGen :: Arbitrary Bool -> Gen (BoolConj Bool)` and `boolConjGen :: Arbitrary Bool -> Gen BoolConj`
