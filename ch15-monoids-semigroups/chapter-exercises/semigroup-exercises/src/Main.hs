@@ -27,7 +27,12 @@ main = do
   putStrLn "Test associativity for \"BoolDisj\":" 
   quickCheck (semigroupAssoc :: BoolDisjAssoc)
   putStrLn ""
-  putStrLn "Test associativity for \"Or\":" 
-  quickCheck (semigroupAssoc :: OrAssoc)
+  putStrLn "Test associativity for \"Or\" on String:" 
+  quickCheck (semigroupAssoc :: OrAssocString)
   putStrLn ""
+  putStrLn "Test associativity for \"Combine\" on String:"
+  quickCheck combAssoc
+  putStrLn ""
+  putStrLn "Test associativity for \"Comp\" on String:"
+  quickCheck compAssoc
   putStrLn "-------------------------------------------------"

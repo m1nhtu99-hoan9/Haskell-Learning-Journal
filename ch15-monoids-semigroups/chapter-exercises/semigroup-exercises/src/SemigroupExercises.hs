@@ -8,7 +8,7 @@ semigroupAssoc :: (Eq m, Semigroup m)
 semigroupAssoc a b c = 
   (==) ((a <> b) <> c) (a <> (b <> c))
 
--- Question 1 
+-- QUESTION 1 
 data Trivial = Trivial deriving (Eq, Show)
 
 instance Semigroup Trivial where
@@ -24,7 +24,7 @@ type TrivAssoc = Trivial -> Trivial -> Trivial -> Bool
     `+++ OK, passed 100 tests.`
 -}
 
--- Question 2
+-- QUESTION 2
 newtype Identity a = Identity a deriving (Eq, Show)
 
 instance (Semigroup a) => Semigroup (Identity a) where 
@@ -41,7 +41,7 @@ instance (Arbitrary a) => Arbitrary (Identity a) where
 type IdenAssocString = 
   (Identity String) -> (Identity String) -> (Identity String) -> Bool
 
--- Question 3
+-- QUESTION 3
 data Two a b = Two a b deriving (Eq, Show)
 
 instance (Semigroup a, Semigroup b) => Semigroup (Two a b) where
@@ -60,7 +60,7 @@ type TwoStrings = (Two String String)
 type TwoAssocString = 
   TwoStrings -> TwoStrings -> TwoStrings -> Bool
 
--- Question 4
+-- QUESTION 4
 data Three a b c = Three a b c deriving (Eq, Show)
 
 instance (Semigroup a, Semigroup b, Semigroup c) 
@@ -82,7 +82,7 @@ type ThreeStrings = (Three String String String)
 type ThreeAssocString = 
   ThreeStrings -> ThreeStrings -> ThreeStrings -> Bool
 
--- Question 5
+-- QUESTION 5
 data Four a b c d = Four a b c d deriving (Eq, Show)
 
 instance (Semigroup a, Semigroup b, Semigroup c, Semigroup d) 
@@ -107,7 +107,7 @@ type FourStrings = (Four String String String String)
 type FourAssocString = 
   FourStrings -> FourStrings -> FourStrings -> Bool
 
--- Question 6 
+-- QUESTION 6 
 newtype BoolConj = BoolConj Bool deriving (Eq, Show)
 
 --    define the conjunction binary operation inside 
@@ -128,17 +128,27 @@ instance Arbitrary BoolConj where
 
 type BoolConjAssoc = BoolConj -> BoolConj -> BoolConj -> Bool
 
--- Question 7 
+-- QUESTION 7 
 newtype BoolDisj = BoolDisj Bool deriving (Eq, Show)
 
--- Question 8 
+instance Semigroup BoolDisj where
+  BoolDisj False <> BoolDisj False = BoolDisj False
+  _              <> _              = BoolDisj True
+
+instance Arbitrary BoolDisj where
+  arbitrary = do
+    x <- arbitrary :: Gen Bool
+    return (BoolDisj x)
+
+type BoolDisjAssoc =  BoolDisj -> BoolDisj -> BoolDisj -> Bool
+
+-- QUESTION 8 
 data Or a b = Fst a | Snd b deriving (Eq, Show)
 
-instance Semigroup Or where
-  Fst _ <> Snd x = Snd x
+instance (Semigroup a, Semigroup b) => Semigroup (Or a b) where
+  _ <> Snd x     = Snd x
   Fst _ <> Fst x = Fst x
-  Snd x <> Fst _ = Snd x
-  Snd x <> Snd _ = Snd x
+  Snd x <> _     = Snd x
 
 orGen :: (Arbitrary a, Arbitrary b) => Gen (Or a b)
 orGen = do 
@@ -146,9 +156,70 @@ orGen = do
   b <- arbitrary
   elements [Fst a, Snd b] -- generate one of the given value in the list, has type [t] -> Gen t
 
-instance Arbitrary Or where
+instance (Arbitrary a, Arbitrary b) => Arbitrary (Or a b) where
   arbitrary = orGen
 
-type OrAssoc = Or -> Or -> Or -> Bool
+type OrStrings = Or String String
+type OrAssocString = OrStrings -> OrStrings -> OrStrings -> Bool
 
+-- QUESTION 9
+newtype Combine a b = Combine { unCombine :: (a -> b) }
+
+instance (Show a, Show b) => Show (Combine a b) where 
+  show _ = "\"Combine\" with a function inside. \n Whatcha expect?"
+
+--  Combine-as-semigroup doesn't need `Eq` instance because it doesn't
+--    have identity unit yet.
+ 
+instance (Semigroup a, Semigroup b) => Semigroup (Combine a b) where
+  Combine f <> Combine g = Combine (\x -> f x <> g x)
+
+--  CoArbitrary signifies that the random `b` chosen by QuickCheck need to be reducible to `a`  
+combGen:: (CoArbitrary a, Arbitrary b) => Gen (Combine a b) 
+combGen = do 
+  f <- arbitrary        
+  return (Combine f) 
+
+instance (CoArbitrary a, Arbitrary b) => Arbitrary (Combine a b) where 
+  arbitrary = combGen
+
+type CombStrings = Combine String String  
+combAssoc :: CombStrings -> CombStrings -> CombStrings -> String -> Bool 
+combAssoc cs1 cs2 cs3 arg = 
+  let leftAssocVector  = (cs1 <> cs2) <> cs3
+      rightAssocVector = cs1 <> (cs2 <> cs3)
+  in (==) (unCombine leftAssocVector arg) (unCombine rightAssocVector arg)
+
+--QUESTION 10
+newtype Comp a = Comp { unComp :: (a -> a) } 
+
+instance Show a => Show (Comp a) where
+  show _ = "\"Comp\" with a function inside. \n Whatcha expect?"
+
+instance Semigroup a => Semigroup (Comp a) where 
+  Comp f <> Comp g = Comp (\x -> f x <> g x)
+
+instance (CoArbitrary a, Arbitrary a) => Arbitrary (Comp a) where 
+  -- for all the types `a` have both `CoArbitrary` instance and `Arbitrary` instance
+  arbitrary = do
+    f <- arbitrary
+    return (Comp f)
+
+type CompStrings = Comp String   
+compAssoc :: CompStrings -> CompStrings -> CompStrings -> String -> Bool 
+compAssoc cs1 cs2 cs3 arg = 
+  let leftAssocVector  = (cs1 <> cs2) <> cs3
+      rightAssocVector = cs1 <> (cs2 <> cs3)
+  in (==) (unComp leftAssocVector arg) (unComp rightAssocVector arg)
+
+{-
+  This chapter's exercises are too long. 
+  Not finished yet.
+  May pick up later. 
+-}
+
+
+
+
+  
 

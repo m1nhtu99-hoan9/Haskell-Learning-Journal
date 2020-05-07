@@ -70,15 +70,43 @@ class Semigroup a where
   mappend (Only x1) (Only x2) = mappend x1 x2
   ```
 - In `semigroup-exercises.hs`:
+
   - Failed attempt to define
+
   ```Haskell
   type IdenAssoc = (Eq t, Semigroup t) => Identity t -> Identity t -> Identity t -> Bool
   ```
+
   - Misunderstanding about the type definition of `boolConjGen` as I attempted:
+
   ```Haskell
   boolConjGen :: Arbitrary Bool -> Gen (BoolConj Bool)
   ```
+
   and
+
   ```Haskell
   boolConjGen :: Arbitrary Bool -> Gen BoolConj
+  ```
+
+  - Failed attempt to append point-free function definitions at:
+
+  ```Haskell
+  instance (Semigroup a, Semigroup b) => Semigroup (Combine a b) where
+    Combine f <> Combine g = Combine (f <> g)
+  ```
+
+  - Failed attempt to define `Show` instance for function:
+
+  ```Haskell
+  instance (Show a, Show b) => Show (Combine a b) where
+    show (unCombine x y) = concat ["Combine ", show x, " to ", show y]
+  ```
+
+  - Misunderstanding about how `quickCheck` check associativity for `Arbitrary Combine`:
+
+  ```Haskell
+  type CombStrings = Combine String String
+  type CombAssocString = CombStrings -> CombStrings -> CombStrings -> Bool
+  quickCheck (semigroupAssoc :: CombAssocString)
   ```
