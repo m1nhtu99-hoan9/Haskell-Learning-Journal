@@ -24,4 +24,10 @@ main = do
   putStrLn "Test associativity for \"BoolConj\":" 
   quickCheck (semigroupAssoc :: BoolConjAssoc)
   putStrLn ""
+  putStrLn "Test associativity for \"BoolDisj\":" 
+  quickCheck (semigroupAssoc :: BoolDisjAssoc)
+  putStrLn ""
+  putStrLn "Test associativity for \"Or\":" 
+  quickCheck (semigroupAssoc :: OrAssoc)
+  putStrLn ""
   putStrLn "-------------------------------------------------"

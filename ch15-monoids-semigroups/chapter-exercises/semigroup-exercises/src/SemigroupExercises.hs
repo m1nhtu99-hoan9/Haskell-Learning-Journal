@@ -127,3 +127,28 @@ instance Arbitrary BoolConj where
   arbitrary = boolConjGen
 
 type BoolConjAssoc = BoolConj -> BoolConj -> BoolConj -> Bool
+
+-- Question 7 
+newtype BoolDisj = BoolDisj Bool deriving (Eq, Show)
+
+-- Question 8 
+data Or a b = Fst a | Snd b deriving (Eq, Show)
+
+instance Semigroup Or where
+  Fst _ <> Snd x = Snd x
+  Fst _ <> Fst x = Fst x
+  Snd x <> Fst _ = Snd x
+  Snd x <> Snd _ = Snd x
+
+orGen :: (Arbitrary a, Arbitrary b) => Gen (Or a b)
+orGen = do 
+  a <- arbitrary
+  b <- arbitrary
+  elements [Fst a, Snd b] -- generate one of the given value in the list, has type [t] -> Gen t
+
+instance Arbitrary Or where
+  arbitrary = orGen
+
+type OrAssoc = Or -> Or -> Or -> Bool
+
+
