@@ -46,7 +46,7 @@ type PairMaybeStringsAssoc = Pair (Maybe String) -> FunMaybeStrings
 -- QUESTION 3 
 data Two a b = Two a b
                deriving (Eq, Show)
-instance Functor (Two b) where
+instance Functor (Two a) where
   fmap f (Two x1 x2) = Two x1 (f x2)
 
 instance (Arbitrary a, Arbitrary b) => Arbitrary (Two a b) where
@@ -56,20 +56,74 @@ instance (Arbitrary a, Arbitrary b) => Arbitrary (Two a b) where
     return (Two x1 x2)
 
 type TwoIntAssoc = Two Trivial Int -> (Fun Int Int) -> (Fun Int Int) -> Bool
-type TwoStringAssoc = Two Int String -> (Fun String String) -> (Fun String String) -> Bool
+type TwoStringAssoc = Two Int String -> (Fun String String) 
+                      -> (Fun String String) -> Bool
 type TwoMaybeStringsAssoc = Two String (Maybe String) -> FunMaybeStrings
                              -> FunMaybeStrings -> Bool
 
 -- QUESTION 4
 data Three a b c = Three a b c
+                   deriving (Eq, Show)
+instance Functor (Three a b) where
+  fmap f (Three x1 x2 x3) = Three x1 x2 (f x3)
+
+instance (Arbitrary a, Arbitrary b, Arbitrary c) => Arbitrary (Three a b c) where
+  arbitrary = do 
+    x1 <- arbitrary
+    x2 <- arbitrary
+    x3 <- arbitrary
+    return (Three x1 x2 x3)
+
+type ThreeIntAssoc = Three Trivial Trivial Int -> (Fun Int Int) 
+                      -> (Fun Int Int) -> Bool
+type ThreeStringAssoc = Three Trivial Int String -> (Fun String String) 
+                        -> (Fun String String) -> Bool
+type ThreeMaybeStringsAssoc = Three Int String (Maybe String) -> FunMaybeStrings
+                             -> FunMaybeStrings -> Bool
 
 -- QUESTION 5
 data Three' a b = Three' a b b
+                  deriving (Show, Eq)
+instance Functor (Three' a) where 
+  fmap f (Three' x1 x2 x3) = Three' x1 (f x2) (f x3)
 
--- QUESTION 6
+instance (Arbitrary a, Arbitrary b) => Arbitrary (Three' a b) where
+  arbitrary = do
+    x1 <- arbitrary 
+    x2 <- arbitrary 
+    x3 <- arbitrary 
+    return (Three' x1 x2 x3)
+
+type ThreeIntAssoc' = Three' Trivial Int -> (Fun Int Int) -> (Fun Int Int) -> Bool
+type ThreeStringAssoc' = Three' Trivial String -> (Fun String String) 
+                         -> (Fun String String) -> Bool
+type ThreeMaybeStringsAssoc' = Three' Int (Maybe String) -> FunMaybeStrings
+                             -> FunMaybeStrings -> Bool
+
+-- QUESTION 6: similar to QUESTION 4
 data Four a b c d = Four a b c d 
 
--- QUESTION 7
+-- QUESTION 7: similar to QUESION 5
+data Four' a b = Four' a a b b 
+                 deriving (Show, Eq)
+instance Functor (Four' a) where 
+  fmap f (Four' x1 x2 x3 x4) = Four' x1 x2 (f x3) (f x4)
+
+instance (Arbitrary a, Arbitrary b) => Arbitrary (Four' a b) where
+  arbitrary = do
+    x1 <- arbitrary   
+    x2 <- arbitrary 
+    x3 <- arbitrary 
+    x4 <- arbitrary 
+    return (Four' x1 x2 x3 x4)
+
+type FourIntAssoc' = Four' Trivial Int -> (Fun Int Int) -> (Fun Int Int) -> Bool
+type FourStringAssoc' = Four' Trivial String -> (Fun String String) 
+                         -> (Fun String String) -> Bool
+type FourMaybeStringsAssoc' = Four' Int (Maybe String) -> FunMaybeStrings
+                             -> FunMaybeStrings -> Bool
+
+-- QUESTION 8
 data Trivial = Trivial deriving (Eq, Show)
 -- can't have Functor instance because this shit has Constant Kind *
 

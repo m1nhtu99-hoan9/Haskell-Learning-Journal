@@ -65,3 +65,48 @@ main = do
   putStrLn "3.3.b. Do \"Two\" applying to String->(Maybe String) abide Composability?"
   quickCheck (V.functorComposability' :: OF.TwoMaybeStringsAssoc)
   putStrLn ""
+  putStrLn "4.1.a. Do \"Three\" :: * -> * -> Int abide Identity law?"
+  quickCheck (V.functorIdentity :: OF.Three OF.Trivial OF.Trivial Int -> Bool)
+  putStrLn "4.1.b. Do \"Three\" :: * -> * -> Int abide Composability?"
+  quickCheck (V.functorComposability' :: OF.ThreeIntAssoc)
+  putStrLn ""
+  putStrLn "4.2.a. Do \"Three\" :: * -> * -> String abide Identity law?"
+  quickCheck (V.functorIdentity :: OF.Three OF.Trivial Int String -> Bool)
+  putStrLn "4.2.b. Do \"Three\" :: * -> * -> String abide Composability law?"
+  quickCheck (V.functorComposability' :: OF.ThreeStringAssoc)
+  putStrLn ""
+  putStrLn "4.3.a. Do \"Three\" :: * -> * -> (Maybe String) abide Identity law?"
+  quickCheck (V.functorIdentity :: OF.Three Int String (Maybe String) -> Bool)
+  putStrLn "4.3.b. Do \"Three\" :: * -> * -> (Maybe String) abide Composability?"
+  quickCheck (V.functorComposability' :: OF.ThreeMaybeStringsAssoc)
+  putStrLn ""
+  putStrLn "5.1.a. Do \"Three\'\" :: Trivial->Int abide Identity law?"
+  quickCheck (V.functorIdentity :: OF.Three' OF.Trivial Int -> Bool)
+  putStrLn "5.1.b. Do \"Three\'\" :: Trivial->Int abide Composability?"
+  quickCheck (V.functorComposability' :: OF.ThreeIntAssoc')
+  putStrLn ""
+  putStrLn "5.2.a. Do \"Three\'\" :: Trivial->String abide Identity law?"
+  quickCheck (V.functorIdentity :: OF.Three' OF.Trivial String -> Bool)
+  putStrLn "5.2.b. Do \"Three\'\" :: Trivial->String abide Composability law?"
+  quickCheck (V.functorComposability' :: OF.ThreeStringAssoc')
+  putStrLn ""
+  putStrLn "5.3.a. Do \"Three\'\" :: Int->(Maybe String) abide Identity law?"
+  quickCheck (V.functorIdentity :: OF.Three' Int (Maybe String) -> Bool)
+  putStrLn "5.3.b. Do \"Three\'\" :: Int->(Maybe String) abide Composability?"
+  quickCheck (V.functorComposability' :: OF.ThreeMaybeStringsAssoc')
+  putStrLn ""
+  putStrLn "7.1.a. Do \"Four\'\" :: Trivial->Int abide Identity law?"
+  quickCheck (V.functorIdentity :: OF.Four' OF.Trivial Int -> Bool)
+  putStrLn "7.1.b. Do \"Four\'\" :: Trivial->Int abide Composability?"
+  quickCheck (V.functorComposability' :: OF.FourIntAssoc')
+  putStrLn ""
+  putStrLn "7.2.a. Do \"Four\'\" :: Trivial->String abide Identity law?"
+  quickCheck (V.functorIdentity :: OF.Four' OF.Trivial String -> Bool)
+  putStrLn "7.2.b. Do \"Four\'\" :: Trivial->String abide Composability law?"
+  quickCheck (V.functorComposability' :: OF.FourStringAssoc')
+  putStrLn ""
+  putStrLn "7.3.a. Do \"Four\'\" :: Int->(Maybe String) abide Identity law?"
+  quickCheck (V.functorIdentity :: OF.Four' Int (Maybe String) -> Bool)
+  putStrLn "7.3.b. Do \"Four\'\" :: Int->(Maybe String) abide Composability?"
+  quickCheck (V.functorComposability' :: OF.FourMaybeStringsAssoc')
+  putStrLn ""
