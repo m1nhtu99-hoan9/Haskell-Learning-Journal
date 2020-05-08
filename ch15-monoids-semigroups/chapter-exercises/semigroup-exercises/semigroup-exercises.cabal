@@ -2,9 +2,7 @@ name:                semigroup-exercises
 version:             0.1.0.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/githubuser/semigroup-exercises#readme
 license:             MIT
-license-file:        LICENSE
 author:              MinhTu Thomas Hoang
 copyright:           2020 MinhTu Thomas Hoang
 category:            Text

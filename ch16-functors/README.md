@@ -7,8 +7,18 @@
 - Similar to _Monoid_, _Functor_ is implemented in Haskell as a typeclass.
 
 ```Haskell
-class Functor f where
+*Main> :i Functor
+class Functor (f :: * -> *) where
   fmap :: (a -> b) -> f a -> f b
+  (<$) :: a -> f b -> f a
+  {-# MINIMAL fmap #-}
+  	-- Defined in ‘GHC.Base’
+instance Functor (Either a) -- Defined in ‘Data.Either’
+instance Functor [] -- Defined in ‘GHC.Base’
+instance Functor Maybe -- Defined in ‘GHC.Base’
+instance Functor IO -- Defined in ‘GHC.Base’
+instance Functor ((->) r) -- Defined in ‘GHC.Base’
+instance Functor ((,) a) -- Defined in ‘GHC.Base’
 ```
 
 - `<$>` is infix version of `fmap`:
@@ -29,6 +39,8 @@ Functors must be structure preserving by abiding these 2 laws:
 
 ### Functors Can Be Stacked
 
+- When multiple layers of functorial structure are recognised, `fmap`'s can be "stacked".
+
 - Proof:
 
 ```Haskell
@@ -44,9 +56,10 @@ fmap2 :: (g x -> g y) -> f (g x) -> f (g y)
 
 -- a ::= (g x -> g y) {has kind * -> *}; b ::= f (g x) -> f (g y);
 -- r ::= (x -> y)
-fmap2 . fmap1 :: ((g x -> g y) -> (f (g x) -> f (g y))) -> ((x -> y) -> (g x -> g y)) -> ((x -> y) -> (f (g x) -> f (g y)))
+fmap2 . fmap1 :: ((g x -> g y) -> (f (g x) -> f (g y))) -> ((x -> y) -> (g x -> g y))
+                  -> ((x -> y) -> (f (g x) -> f (g y)))
 
-Hence, compose fmap1 to fmap2, we have the end result having type of (x -> y) -> (f (g x) -> f (g y))
+-- Hence, compose fmap1 to fmap2, we have the end result having type of (x -> y) -> (f (g x) -> f (g y))
 ```
 
 - Example:
@@ -54,7 +67,8 @@ Hence, compose fmap1 to fmap2, we have the end result having type of (x -> y) ->
 ```Haskell
 (fmap . fmap) (const 'p') [Just "Dance", Nothing, Just "Fly"]
 -- the first fmap result to a type of `Char -> String`
--- the second fmap apply `Char -> String` to `[Maybe String]`, hence the end result having type `[Maybe String]` -> [Maybe Char]`
+-- the second fmap apply `Char -> String` to `[Maybe String]`
+-- , hence the end result having type `[Maybe String]` -> [Maybe Char]`
 ```
 
 ## Recorded Errors & Misunderstanding While Doing Exercises
