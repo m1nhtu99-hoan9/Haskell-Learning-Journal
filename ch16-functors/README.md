@@ -104,4 +104,4 @@ maybeToList (Just x) =  [x]
 
 ## Recorded Errors & Misunderstanding While Doing Exercises
 
-- I haven't been able to extract value inside `Flip` `newtype` value instances yet.
+- ~~I haven't been able to extract value inside `Flip` `newtype` value instances yet.~~ I've done it in [`chapter-exercises.hs`](./chapter-exercises.hs).
