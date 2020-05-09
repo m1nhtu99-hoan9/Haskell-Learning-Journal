@@ -43,7 +43,9 @@ Prelude> pure (+1) <*> [1, 2, 45] --pure (Int -> Int) <*> [Int]
 ```Haskell
 mappend ::       f        f      f
 $       ::   (a -> b) ->  a  ->  b
-<$>     :: f (a -> b) -> f a -> f b
+<*>     :: f (a -> b) -> f a -> f b
 ```
+
+- Note that a type can have multiple `Monoid` instances but can have only one `Functor` instance.
 
 ## Recorded Errors & Misunderstanding While Doing Exercises
