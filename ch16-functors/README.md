@@ -71,4 +71,37 @@ fmap2 . fmap1 :: ((g x -> g y) -> (f (g x) -> f (g y))) -> ((x -> y) -> (g x -> 
 -- , hence the end result having type `[Maybe String]` -> [Maybe Char]`
 ```
 
+### Eta-reduced `fmap`
+
+```Haskell
+liftedInc :: (Functor f, Num a) => f a -> f a
+liftedInc = fmap (+1)
+
+liftedShow :: (Functor f, Show a) => f a -> f String
+liftedShow = fmap show
+```
+
+### Structural Transformation
+
+- Structural transformation preserving the structure's values is possible. This technique is called "_natural transformation_"
+- To do this, `RankNTypes` option need to be activated:
+  - In GHCi: `:set -XRankNTypes`
+  - In code file: put on the first code line, `{-# LANGUAGE RankNTypes #-}`
+- Example:
+
+```Haskell
+type Nat f g = forall a . f a -> g a
+
+-- structural transformation is not a fold
+maybeToList :: Nat Maybe []
+maybeToList Nothing = []
+maybeToList (Just x) =  [x]
+```
+
+### Functors are unique to a datatype
+
+- In Haskell, `Functor` instances are unique for their given datatypes. In constrast, for `Monoid`, these unique pairings requires the use of `newtype`s to pair `Monoid` instance to a type.
+
 ## Recorded Errors & Misunderstanding While Doing Exercises
+
+- I haven't been able to extract value inside `Flip` `newtype` value instances yet.
