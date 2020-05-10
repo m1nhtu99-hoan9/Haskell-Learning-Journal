@@ -1,0 +1,27 @@
+name:                property-test-applicatives
+version:             0.1.0.0
+author:              MinhTu Thomas Hoang
+maintainer:          minhtu.hoang19@gmail.com
+copyright:           2020 MinhTu Thomas Hoang
+category:            Test
+build-type:          Simple
+cabal-version:       >=1.10
+extra-source-files:  README.md
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     CustomTypes
+  default-language:    Haskell2010
+  ghc-options:         -Wall -fwarn-tabs
+  build-depends:       base >= 4.7 && < 5
+                     , QuickCheck
+                     , checkers
+
+executable validate
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  default-language:    Haskell2010
+  ghc-options:         -Wall -fwarn-tabs
+  build-depends:       base >= 4.7 && < 5
+                     , QuickCheck
+                     , checkers

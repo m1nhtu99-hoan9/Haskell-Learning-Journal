@@ -48,4 +48,55 @@ $       ::   (a -> b) ->  a  ->  b
 
 - Note that a type can have multiple `Monoid` instances but can have only one `Functor` instance.
 
+### Applicative In Use
+
+- Applicative List & Applicative Maybe are the most widely-used ones.
+- Applicative Constant is needed in cases involving throwing function application away.
+
+### Applicative Laws
+
+1. **Identity**
+
+```Haskell
+pure id <*> v = v
+```
+
+2. **Composition**
+
+```Haskell
+pure (.) <*> u <*> v <*> w = u <*> (v <*> w)
+```
+
+3. **Homomorphism**
+
+A homomorphism is a structure-perserving map between two algebraic structures.
+
+```Haskell
+pure f <*> pure x = pure (f x)
+```
+
+4. **Interchange**
+
+```Haskell
+u <*> pure v = pure ($ v) <*> u
+-- $ v is basically \f -> f v
+```
+
+### Property Testing
+
+- _Notes_: The definition of Monoid has been changed since the book was published. `Semigroup` is a superclass of `Monoid` since base-4.11.0.0.
+
+```Haskell
+-- errata fixed
+instance Monoid Bull where
+  mempty = Fools
+
+instance Semigroup Bull where
+  _ <> _ = Fools
+```
+
+### ZipList Monoid
+
+- Source code illustrating this is in `property-test-applicative` project.
+
 ## Recorded Errors & Misunderstanding While Doing Exercises
