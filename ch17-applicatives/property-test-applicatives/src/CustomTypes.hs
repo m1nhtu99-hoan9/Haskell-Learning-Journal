@@ -31,6 +31,7 @@ trg = undefined
 
 -- Applicative ZipList {not tested yet}
 
+--  attempt to declare orphan instances
 instance Monoid a => Monoid (ZipList a) where 
   mempty = pure mempty
 instance Semigroup a => Semigroup (ZipList a) where
