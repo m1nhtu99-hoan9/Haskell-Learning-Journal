@@ -48,3 +48,40 @@ instance Arbitrary a => Arbitrary (Product a) where
 instance Eq a => EqProp (ZipList a) where
   (=-=) = eq
 -}
+
+-- From Chapter 18, just want to test it here
+data Sum' a b = 
+    First' a 
+  | Second' b
+  deriving (Show, Eq)
+
+instance Functor (Sum' a) where
+  fmap f (First' a) = First' a
+  fmap f (Second' b) = Second' (f b)
+
+instance (Monoid a) => Applicative (Sum' a) where
+  pure = Second' 
+  (Second' x1) <*> (Second' y1) = Second' (x1 y1)
+  (First' x1)  <*> (First' y1)  = First' (x1 <> y1)
+  (First' x1)  <*> _            = (First' x1)
+  _            <*> (First' x1)  = (First' x1)
+
+instance Monoid a => Monad (Sum' a) where 
+  return = pure
+  First' x1 >>= _  = First' x1 --nothing happen
+  Second' y1 >>= f = f y1
+
+instance (Arbitrary a, Arbitrary b) => Arbitrary (Sum' a b) where
+  arbitrary = do
+      a <- arbitrary
+      b <- arbitrary
+      elements [First' a, Second' b]
+
+instance (Eq a, Eq b) => EqProp (Sum' a b) where (=-=) = eq
+
+trgSum :: Sum' [Int] (Maybe String, String, [Int])
+trgSum = undefined
+
+-- the triggers for `applicative`, `functor` , `monoid`, `monad`
+-- behave a bit trickily
+-- functor :: (Functor m, ...) => m (a, b, c) -> TestBatch

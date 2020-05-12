@@ -9,7 +9,9 @@ import CustomTypes
 main :: IO ()
 main = do
   quickBatch (monoid Twoo)
-  quickBatch (applicative trg)
+  --quickBatch (applicative trg)
+  quickBatch (applicative trgSum)
+  quickBatch (monad trgSum)
 
 -- Monoid laws as QuickCheck properties has already been bundled
 --  into TestBatch called `monoid`.  

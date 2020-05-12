@@ -72,4 +72,50 @@ do
 
 ### Monads In Use
 
+- Monad List
+- Monad Maybe vs Applicative Maybe:
+  - With `Maybe Applicative`, each computation fails or succeed independently of each other (kinda analogous to components of parallel electrical circuit).
+  - With `Maybe Monad`, computations contributing to the final result can choose to return `Nothing` based on previous computation (kinda like a chain of JS Promises or components of series electrical circuit).
+- _Notes_:
+
+  - Applicative and Monad instances must have the same behaviour:
+
+  ```Haskell
+  import Control.Monad (ap)
+
+  (<*>) == ap
+  ```
+
 ## Recorded Errors & Misunderstanding While Doing Exercises
+
+- In [`monads-in-use.hs`](./monads-in-use.hs):
+
+  - I attempted:
+
+  ```Haskell
+  instance (Monoid a) => Applicative (Sum' a) where
+  --...
+  (First' x1)  <*> (First' y1)  = First' (x1 <> y1)
+  ```
+
+  The constraint I defined here doesn't account for all the cases, which came from the misconception that Applicative instance has to abide by Monoid laws. For all cases of `Fist' x1 <*> _`, it can't apply itself to anything, hence it only need to abide by Identity law.
+
+  When I tested that Applicative instance with `checkers`:
+
+  ```Haskell
+  applicative:
+    identity:     +++ OK, passed 500 tests.
+    composition:  +++ OK, passed 500 tests.
+    homomorphism: +++ OK, passed 500 tests.
+    interchange:  +++ OK, passed 500 tests.
+    functor:      +++ OK, passed 500 tests.
+
+  monad laws:
+    left  identity: +++ OK, passed 500 tests.
+    right identity: +++ OK, passed 500 tests.
+    associativity:  +++ OK, passed 500 tests.
+    pure:           +++ OK, passed 500 tests.
+    ap:             *** Failed! Falsifiable (after 2 tests):
+  First' []
+  First' [-1]
+  ```
