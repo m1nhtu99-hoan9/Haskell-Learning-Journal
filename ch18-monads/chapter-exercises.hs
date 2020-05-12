@@ -1,16 +1,18 @@
---EXERCISE: WRITE INSTANCES
---  notes: Applicative instance always need Functor instance
---         Monad instance always need Applicative instance
---  question 1
-data Nope = Nope deriving (Show, Eq)
- 
-instance Functor Nope where
-  fmap _ Nope = Nope
+{-
+class Functor f => Applicative (f :: * -> *) where
+  pure :: a -> f a
+  (<*>) :: f (a -> b) -> f a -> f b
+-}
+instance Applicative List where 
+  pure x0           = Cons x0 Nil
+  fs <*> ls         = undefined
 
-instance Applicative Nope where
-  pure _  = Nope
-  Nope <*> _ = Nope  
-
-instance Monad Nope where
-  return = pure
-  _ (>>=) _ = Nope
+{-
+class Applicative m => Monad (m :: * -> *) where
+  (>>=) :: m a -> (a -> m b) -> m b
+  (>>) :: m a -> m b -> m b
+  return :: a -> m a
+-}
+instance Monad List where
+  return          = pure
+  ls >>= fs       = undefined 

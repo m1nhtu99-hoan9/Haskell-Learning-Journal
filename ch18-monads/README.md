@@ -1,4 +1,4 @@
-# Chapter 17: Monads
+# Chapter 18: Monads
 
 ## Reading Notes
 
@@ -127,6 +127,7 @@ flip (.) -- exactly pipeline
 
 ## Recorded Errors & Misunderstanding While Doing Exercises
 
+- Finally I understood how typeclass `Arbitrary` of `QuickCheck` works.
 - In [`monads-in-use.hs`](./monads-in-use.hs):
 
   - I attempted:
@@ -160,4 +161,40 @@ flip (.) -- exactly pipeline
     ap:             *** Failed! Falsifiable (after 2 tests):
   First' []
   First' [-1]
+  ```
+
+- In chapter exercises:
+
+  - My 1st attempt to write `Applicative` and `Monad` instances for `List`:
+
+  ```Haskell
+  instance Applicative List where
+    pure x0                  = Cons x0 Nil
+    Cons f Nil <*> Cons x ls = Cons (f x) (fmap f ls)
+    _          <*> Nil       = Nil
+    Nil        <*> _         = Nil
+
+  instance Monad List where
+    return          = pure
+    Nil       >>= f = Nil
+    Cons x ls >>= f = Cons (f x) (ls >>= f)
+  ```
+
+  - My 2nd attempt to write `Applicative` and `Monad` instance for `List`:
+
+  ```Haskell
+  instance Applicative List where
+    pure x0           = Cons x0 Nil
+    fs <*> ls         = listToRecurList [
+                         f x
+                       | f <- recurListToList fs
+                       , x <- recurListToList ls
+                      ]
+  instance Monad List where
+    return          = pure
+    ls >>= fs       = listToRecurList [
+                        xs
+                      | f  <- recurListToList fs
+                      , xs <- fmap f $ recurListToList ls
+                    ]
   ```
