@@ -129,5 +129,13 @@ instance Monad (Sum' a) where
 {- Test: Identity law: (==) (pure id <*> First' "Hello") (First "Helllo")
                        (==) (pure id <*> Second' "Hello") (Second' "Helllo")
          Homomorphism: 
+            (==) (pure length <*> pure "Hello" :: Sum' String Int) (Second' 5)
+         Interchange:  
+            (==) ((Second' length) <*> pure "Hello") 
+                 (pure ($ "Hello") <*> Second' length)
+         Composition:
+            (==) (pure (.) <*> Second' (+1) <*> Second' (*5) <*> Second' 4)
+                 (Second' (+1) <*> (Second' (*5) <*> Second' 4)))
+
             
 -}

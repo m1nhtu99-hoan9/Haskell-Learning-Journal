@@ -9,7 +9,7 @@ import CustomTypes
 main :: IO ()
 main = do
   quickBatch (monoid Twoo)
-  --quickBatch (applicative trg)
+  quickBatch (applicative trg)
   quickBatch (applicative trgSum)
   quickBatch (monad trgSum)
 

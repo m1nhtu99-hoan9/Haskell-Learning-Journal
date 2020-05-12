@@ -86,6 +86,45 @@ do
   (<*>) == ap
   ```
 
+### Monad Laws
+
+1. Identity law
+
+- Right Identity
+
+```Haskell
+m >>= return = m
+```
+
+- Left Identity
+
+```Haskell
+return x >>= f = f x
+```
+
+- These two Identity laws signify that `return` should change any behaviours, just "lift" the structure (similarly to `pure`).
+
+2. Associativity
+
+```Haskell
+(m >>= f) >>= g = m >>= (\x -> f x >>= g)
+```
+
+### Composition for Monadic Functions
+
+- Kleisli composition: kinda like a pipeline. In fact, it's exactly identical to `flip (.)`:
+
+```Haskell
+import Control.Monad
+
+(>=>)
+  :: Monad m
+  => (a -> m b) -> (b -> m c) -> a -> m c
+
+flip (.) -- exactly pipeline
+  :: (a -> b) -> (b -> c) -> a -> c
+```
+
 ## Recorded Errors & Misunderstanding While Doing Exercises
 
 - In [`monads-in-use.hs`](./monads-in-use.hs):
@@ -94,11 +133,14 @@ do
 
   ```Haskell
   instance (Monoid a) => Applicative (Sum' a) where
-  --...
+  -- [...]
   (First' x1)  <*> (First' y1)  = First' (x1 <> y1)
+  -- [...]
+  trgSum :: Sum' [Int] (Maybe String, String, [Int])
+  trgSum = undefined
   ```
 
-  The constraint I defined here doesn't account for all the cases, which came from the misconception that Applicative instance has to abide by Monoid laws. For all cases of `Fist' x1 <*> _`, it can't apply itself to anything, hence it only need to abide by Identity law.
+  The constraint I defined here doesn't account for all the cases, which came from the misconception that Applicative instance has to abide by Monoid laws. For all cases of `First' x1 <*> _`, it can't apply itself to anything, hence it only need to abide by Identity law.
 
   When I tested that Applicative instance with `checkers`:
 

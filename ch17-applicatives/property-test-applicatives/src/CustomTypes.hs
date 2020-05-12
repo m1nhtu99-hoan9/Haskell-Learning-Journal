@@ -59,14 +59,13 @@ instance Functor (Sum' a) where
   fmap f (First' a) = First' a
   fmap f (Second' b) = Second' (f b)
 
-instance (Monoid a) => Applicative (Sum' a) where
+instance Applicative (Sum' a) where
   pure = Second' 
   (Second' x1) <*> (Second' y1) = Second' (x1 y1)
-  (First' x1)  <*> (First' y1)  = First' (x1 <> y1)
   (First' x1)  <*> _            = (First' x1)
   _            <*> (First' x1)  = (First' x1)
 
-instance Monoid a => Monad (Sum' a) where 
+instance Monad (Sum' a) where 
   return = pure
   First' x1 >>= _  = First' x1 --nothing happen
   Second' y1 >>= f = f y1
