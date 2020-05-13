@@ -137,6 +137,12 @@ instance Applicative List where
   fs <*> xs   = flatMap (`fmap` xs) fs
   -- fmap (`fmap` xs) fs will evaluate to :: List (List a)
 
+{-
+class Applicative m => Monad (m :: * -> *) where
+  (>>=) :: m a -> (a -> m b) -> m b
+  (>>) :: m a -> m b -> m b
+  return :: a -> m a
+-}
 instance Monad List where
   return          = pure
   Nil >>= _       = Nil

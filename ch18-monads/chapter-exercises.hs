@@ -1,18 +1,26 @@
-{-
-class Functor f => Applicative (f :: * -> *) where
-  pure :: a -> f a
-  (<*>) :: f (a -> b) -> f a -> f b
--}
-instance Applicative List where 
-  pure x0           = Cons x0 Nil
-  fs <*> ls         = undefined
+import Control.Monad
+-- CHAPTER EXERCISE: WRITE INSTANCE 
+-- {  check out `./proptest-monads` }
 
-{-
-class Applicative m => Monad (m :: * -> *) where
-  (>>=) :: m a -> (a -> m b) -> m b
-  (>>) :: m a -> m b -> m b
-  return :: a -> m a
--}
-instance Monad List where
-  return          = pure
-  ls >>= fs       = undefined 
+-- CHAPTER EXERCISE: WRITE FUNCTIONS
+
+j :: Monad m => m (m a) -> m a
+j = (>>= id)
+
+l1 :: Monad m => (a -> b) -> m a -> m b
+l1 = fmap  
+
+l2 :: Monad m => (a -> b -> c) -> m a -> m b -> m c
+l2 = liftM2
+
+a :: Monad m => m a -> m (a -> b) -> m b
+a = flip (<*>)
+
+meh :: Monad m => [a] -> (a -> m b) -> m [b]
+meh [] f     = return []                    
+meh (x:xs) f = liftM2 (:) (f x) (meh xs f)  
+
+flipType :: Monad m => [m a] -> m [a]
+flipType xs = meh xs id 
+-- in here `id` is enough, because when `meh` is called
+--    it will lift (:) anyway
