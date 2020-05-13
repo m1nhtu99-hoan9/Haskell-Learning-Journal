@@ -102,16 +102,20 @@ instance Monoid (List a) where
   --`mconcat` will be [List a] -> List a, which is undesired
   -- we need `mconcat` alternative which is List (List a) -> List a
 
-fold :: (a -> b -> b) -> b -> List a -> b
-fold _ b Nil = b
-fold f b (Cons a as) = f a (fold f b as)
+foldrRecurList :: (a -> b -> b) -> b -> List a -> b
+foldrRecurList _ i Nil         = i
+foldrRecurList f i (Cons a ls) = f a (foldrRecurList f i ls)
 
 concat' :: List (List a) -> List a
-concat' = fold (<>) Nil
+concat' = foldrRecurList (<>) Nil
 
 instance Functor List where 
   fmap f Nil        = Nil
   fmap f (Cons x y) = Cons (f x) (fmap f y)
+
+-- this function both apply `fmap` and reduce 1 redundant layer of structure
+flatMap :: (a -> List b) -> List a -> List b
+flatMap f = concat' . fmap f
 
 recurListToList :: (Eq a, Show a) => List a -> [a]
 recurListToList Nil         = []
@@ -121,17 +125,23 @@ listToRecurList :: (Eq a, Show a) => [a] -> List a
 listToRecurList []     = Nil
 listToRecurList (x:xs) = Cons x (listToRecurList xs)
 
-
 {-
 class Functor f => Applicative (f :: * -> *) where
   pure :: a -> f a
   (<*>) :: f (a -> b) -> f a -> f b
 -}
 instance Applicative List where 
-  pure x = Cons x Nil 
-  Nil <*> _ = Nil
+  pure x      = Cons x Nil 
+  Nil <*> _   = Nil
   _   <*> Nil = Nil
-  --fs <*> xs = join (fmap (`fmap` xs) fs)
+  fs <*> xs   = flatMap (`fmap` xs) fs
+  -- fmap (`fmap` xs) fs will evaluate to :: List (List a)
+
+instance Monad List where
+  return          = pure
+  Nil >>= _       = Nil
+  Cons a as >>= f = mappend (f a) (as >>= f)
+
 instance Arbitrary a => Arbitrary (List a) where 
   arbitrary = do
     r  <- arbitrary

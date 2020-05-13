@@ -180,7 +180,7 @@ flip (.) -- exactly pipeline
     Cons x ls >>= f = Cons (f x) (ls >>= f)
   ```
 
-  - My 2nd attempt to write `Applicative` and `Monad` instance for `List`:
+  - My 2nd attempt to write `Applicative` and `Monad` instance for `List` (this question is super hard):
 
   ```Haskell
   instance Applicative List where

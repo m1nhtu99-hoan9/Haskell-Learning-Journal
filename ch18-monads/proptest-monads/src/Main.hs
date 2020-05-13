@@ -23,4 +23,4 @@ main = do
   putStrLn "4. \"List\""
   quickBatch (monoid trgList)
   quickBatch (applicative trgList)
-  --quickBatch (monad trgList)
+  quickBatch (monad trgList)
