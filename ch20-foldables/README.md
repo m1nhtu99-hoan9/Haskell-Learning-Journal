@@ -2,7 +2,8 @@
 
 ## Reading Notes
 
-- _Foldable_ is a way of _generalising catamorphisms_ to different datatypes.
+- _Foldable_ is a way of _generalising catamorphisms_ to different datatypes. Foldable gives us a way to process values embedded
+  in a structure as if they existed in a sequential order.
 
 - `Foldale` intsance needs the respective `Monoid` instance.
 
