@@ -11,8 +11,11 @@ extra-source-files:  README.md
 library
   hs-source-dirs:     src
   exposed-modules:    HTTPStuff
+                    , QualityControl
   default-language:   Haskell2010
   build-depends:      base >= 4.7 && < 5
+                    , QuickCheck
+                    , checkers
                     , wreq 
                     , bytestring
 
