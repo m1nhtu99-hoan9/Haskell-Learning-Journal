@@ -3,7 +3,7 @@ version:             0.1.0.0
 author:              MinhTu Thomas Hoang
 maintainer:          minhtu.hoang19@gmail.com
 copyright:           2020 MinhTu Thomas Hoang
-category:            Web
+category:            CLI
 build-type:          Simple
 cabal-version:       >=1.10
 extra-source-files:  README.md

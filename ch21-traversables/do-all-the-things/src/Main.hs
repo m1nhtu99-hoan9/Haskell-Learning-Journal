@@ -1,11 +1,17 @@
 module Main where
 
-import Test.QuickCheck 
-import Test.QuickCheck.Classes
-import Test.QuickCheck.Checkers
-
-import HTTPStuff
+import HTTPStuff ()
 import QualityControl
+  ( trgConstant,
+    trgId,
+    trgList,
+    trgOp,
+    trgSki,
+    trgTree,
+  )
+import Test.QuickCheck ()
+import Test.QuickCheck.Checkers (quickBatch)
+import Test.QuickCheck.Classes (traversable)
 
 main :: IO ()
 main = do

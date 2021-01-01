@@ -16,12 +16,11 @@ instance Functor Identity where
 instance Foldable Identity where
   foldMap f (Identity x) = f x
 instance Traversable Identity where
-  traverse f (Identity x) = Identity <$> (f x) -- have applicative behaviour
+  traverse f (Identity x) = Identity <$> f x -- have applicative behaviour
 
 instance (Arbitrary a) => Arbitrary (Identity a) where
   arbitrary = do
-    x <- arbitrary
-    return (Identity x)
+    Identity <$> arbitrary
 
 instance (Eq a) => EqProp (Identity a) where
   (=-=) = eq    
@@ -41,15 +40,13 @@ instance Traversable (Constant a) where
   traverse f (Constant x) = pure $ Constant x --have applicative behaviour
 
 instance (Arbitrary a, Arbitrary b) => Arbitrary (Constant a b) where
-  arbitrary = do
-    x <- arbitrary
-    return (Constant x)
+  arbitrary = Constant <$> arbitrary 
+
 instance (Eq a, Eq b) => EqProp (Constant a b) where
   (=-=) = eq    
 
 trgConstant :: Constant [Int] (String, Sum Int, Product Int) 
 trgConstant = undefined  
-
 
 data Optional a = Nada
                 | Yep a 
@@ -73,7 +70,6 @@ instance (Eq a) => EqProp (Optional a) where
 trgOp :: Optional (String, Sum Int, Product Int) 
 trgOp = undefined  
 
-
 data List a = Nil
             | Cons a (List a) 
             deriving (Show, Eq, Ord)
@@ -83,7 +79,7 @@ instance Functor List where
   fmap f (Cons x xs) = Cons (f x) (fmap f xs)
 instance Foldable List where
   foldMap _ Nil         = mempty
-  foldMap f (Cons x xs) = (f x) <> (foldMap f xs)
+  foldMap f (Cons x xs) = f x <> foldMap f xs
 instance Traversable List where
   traverse _ Nil         = pure Nil
   traverse f (Cons x xs) = liftA2 Cons (f x) (traverse f xs)
@@ -92,7 +88,7 @@ instance Arbitrary a => Arbitrary (List a) where
   arbitrary = do
    x <- arbitrary
    xs <- arbitrary
-   elements [Nil, (Cons x xs)]
+   elements [Nil, Cons x xs]
 instance Eq a => EqProp (List a) where
   (=-=) = eq
 trgList :: List (String, Sum Int, Product Int) 
@@ -131,11 +127,11 @@ instance Functor Tree where
 instance Foldable Tree where
   foldMap _ Empty           = mempty
   foldMap f (Leaf x)        = f x
-  foldMap f (Node x1 x2 x3) = mconcat [(foldMap f x1), (f x2), (foldMap f x3)]
+  foldMap f (Node x1 x2 x3) = mconcat [foldMap f x1, f x2, foldMap f x3]
 instance Traversable Tree where
   traverse _ Empty            = pure Empty
-  traverse f (Leaf x)         = Leaf <$> (f x)
-  traverse f (Node x1 x2 x3)  = Node <$> (traverse f x1) <*> (f x2) <*> (traverse f x3)
+  traverse f (Leaf x)         = Leaf <$> f x
+  traverse f (Node x1 x2 x3)  = Node <$> traverse f x1 <*> f x2 <*> traverse f x3
 
 instance (Arbitrary a) => Arbitrary (Tree a) where
   arbitrary = do 
