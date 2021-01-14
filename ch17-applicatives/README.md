@@ -13,7 +13,7 @@ class Functor f => Applicative f where
 What it means is that any `Applicative` also has a `Functor`. Vice versa, `Functor` can also be defined in term of `Applicative`.
 
 - `pure` lifts something into functorial (_applicative_) structure.
-- `<*>` is called _apply_ or shortened into _ap_.
+- `<*>` is called _apply_ or shortened into _ap_ (according to the [official documentation](https://hackage.haskell.org/package/base-4.14.1.0/docs/Prelude.html#v:-60--42--62-), it's _sequential application_).
 
 ### Applicative vs Functor
 
