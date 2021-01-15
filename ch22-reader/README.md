@@ -26,6 +26,18 @@
     ```
     - 
 - `Reader` often refers to the `Monad` instance.
+  
+  ```haskell
+  (>>=) :: Monad m => 
+     m    a  -> (a -> (m    b)) ->  m    b
+    (r -> a) -> (a -> (r -> b)) -> (r -> b)
+  -- explicitly: (->) r a -> (a -> (->) r b) -> (->) r b 
+  
+  return :: Monad m => a -> m    a
+  return ::            a -> r -> a
+  -- explicitlyL:      a -> (->) r a                
+  ```
+
 - `Reader` is an answer to **Dependency Injection** problem.
 
 ### Breaking Down the `Functor` of Functions
@@ -43,3 +55,9 @@ instance Functor ((->) r) where
 - [A tutorial](https://gist.github.com/twopoint718/c02164137c6fca9e0c4c) attempts to explain `Reader`. The author also introduced solutions to some of this chapter's exercises
 - [This *Tsoding*'s stream record](https://www.youtube.com/watch?v=N9RUqGYuGfw) also accompany this chapter's content. The parser _Tsoding_ coded is a Reader. 
 ## Recorded Errors & Misconceptions During Doing Exercises
+
+- `bind` implementation for `Monad (Reader r)`:
+  ```haskell
+  (>>=) :: Reader r a -> (a -> Reader r b) -> Reader r b
+  (Reader f) >>= fRg = Reader (\r -> fRg (f r))
+  ```

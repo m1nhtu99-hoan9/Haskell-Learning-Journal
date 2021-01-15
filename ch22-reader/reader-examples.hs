@@ -1,23 +1,7 @@
 {-# LANGUAGE InstanceSigs #-}
 import Control.Applicative
 
--- `runReader` is an "accessor"
-newtype Reader r a = Reader { runReader :: r -> a }
-
-instance Functor (Reader r) where
-  fmap :: (a -> b) -> Reader r a -> Reader r b
-  -- fmap f (Reader g) = Reader $ \r -> f (g r)
-  fmap f (Reader g) = Reader (f . g)
-
--- `fmap` for `Functor (Reader r)` is the same as dot operator
-compose :: (b -> c) -> (a -> b) -> (a -> c)
-compose f g = f . g
-
-{- the most generic implementation for `ask` -}
-ask :: Reader a a
-ask = Reader id
-
-{- DEMO WHAT PROBLEMS COULD BE SOLVED BY READER APPLICATIVE -}
+{- DEMO WHAT PROBLEMS COULD BE SOLVED BY READER APPLICATIVE & MONAD -}
 newtype HumanName = HumanName String 
                     deriving (Eq, Show)
 
@@ -48,3 +32,10 @@ p1 = Person
 
 getDogOf :: Person -> Dog
 getDogOf = liftA2 Dog dogName address 
+
+-- w/ Reader Monad
+getDogOf' :: Person -> Dog
+getDogOf' = do
+  d <- dogName
+  a <- address
+  return (Dog d a)
