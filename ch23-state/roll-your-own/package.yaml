@@ -1,0 +1,22 @@
+name: roll-your-own
+version: '0.1.0.0'
+category: Simple
+author: MinhTu Thomas Hoang
+maintainer: minhtu.hoang19@gmail.com
+copyright: 2021 MinhTu Thomas Hoang
+
+ghc-options: 
+  - -Wall
+extra-source-files:
+  - README.md
+
+other-modules: []
+
+executables:
+  roll-your-own:
+    main: Main.hs
+    source-dirs: src
+    dependencies:
+      - base >=4.7 && <5
+      - random
+      - transformers
