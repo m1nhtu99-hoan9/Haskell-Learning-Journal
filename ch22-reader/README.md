@@ -24,7 +24,7 @@
     Prelude Control.Applicative> (liftA2 (+) (*2) (/2)) 30
     75.0
     ```
-    - 
+     
 - `Reader` often refers to the `Monad` instance.
   
   ```haskell
@@ -38,25 +38,22 @@
   -- explicitlyL:      a -> (->) r a                
   ```
 
+  - An example of combine `Traversable`'s `sequenceA` and `Reader` in surprise way
+
+    ```haskell
+    Prelude Data.Traversable> sequenceA [(> 3), (< 8), even] 7
+    [True,True,False]
+    ```
+
 - `Reader` is an answer to **Dependency Injection** problem.
 
-### Breaking Down the `Functor` of Functions
-
-```Haskell
-instance Functor ((->) r) where
-  fmap = (.)
-```
-
-### `Reader`
-
-- `Reader` is newtype wrapper for the function type
 
 ## Related Learning Resources
 - [A tutorial](https://gist.github.com/twopoint718/c02164137c6fca9e0c4c) attempts to explain `Reader`. The author also introduced solutions to some of this chapter's exercises
 - [This *Tsoding*'s stream record](https://www.youtube.com/watch?v=N9RUqGYuGfw) also accompany this chapter's content. The parser _Tsoding_ coded is a Reader. 
 ## Recorded Errors & Misconceptions During Doing Exercises
 
-- `bind` implementation for `Monad (Reader r)`:
+- My first attempt at writing `bind` implementation for `Monad (Reader r)`:
   ```haskell
   (>>=) :: Reader r a -> (a -> Reader r b) -> Reader r b
   (Reader f) >>= fRg = Reader (\r -> fRg (f r))
