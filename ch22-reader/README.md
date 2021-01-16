@@ -1,7 +1,5 @@
 # Chapter 22: Reader
 
-[Imma halt my Haskell studying at this point. This point onward covers a lot of advanced topics that I don't feel ready yet.]
-
 ## Reading Notes
 
 ### Re-thinking 
@@ -24,7 +22,7 @@
     Prelude Control.Applicative> (liftA2 (+) (*2) (/2)) 30
     75.0
     ```
-     
+
 - `Reader` often refers to the `Monad` instance.
   
   ```haskell
