@@ -13,7 +13,6 @@
   -- counter-example of isomorphism
   type Iso a b = (a -> b, b -> a)
   ```
-
 ### State 
 
 ```haskell
