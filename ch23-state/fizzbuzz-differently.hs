@@ -14,8 +14,9 @@ fizzBuzzFromTo x y =
   case compare x y of 
     GT -> error "First argument need to be smaller than or equal to the second one"
           -- ^ very dirty trick, not recommended in production code
-    EQ -> fizzBuzzList [y]
-    LT -> fizzBuzzList [y,y-1..x]                        
+    -- EQ -> fizzBuzzList [y]
+    _ -> fizzBuzzList [y,y-1..x] -- still evaluate to `[y]` in case of `EQ`
+                                 -- in case of `GT`, evaluate to `[]`                        
 
 fizzBuzzList :: [Int] -> [String]
 fizzBuzzList ls = execState (mapM_ addResult ls) []
@@ -57,6 +58,3 @@ buzz :: Int -> String
 buzz n  
   | (n `mod` 5 == 0) = "Buzz"
   | otherwise = ""
-
-
-

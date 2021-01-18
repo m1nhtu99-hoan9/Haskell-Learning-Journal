@@ -30,3 +30,15 @@ runState :: State s a -> s -> (a, s)
 - [Short online free course](https://academy.mondaymorninghaskell.com/p/your-first-haskell-project) teaches how to create, manage & build Haskell projects using `Cabal`, `Stack`, `hpack`.
 
 ## Recorded Errors & Misconceptions During Doing Exercises
+
+- 1st attempt to write customised `State` instances: 
+  
+  ```haskell
+  instance Functor (NhaNuoc s) where
+    -- ...
+    fmap f (NhaNuoc g) = NhaNuoc (\s -> (fst $ g s, s))
+
+  instance Applicative (NhaNuoc s) where
+    -- ...
+    NhaNuoc f'' <*> nNg = f'' <$> nNg
+  ```
