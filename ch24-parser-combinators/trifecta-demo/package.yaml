@@ -1,0 +1,22 @@
+name: trifecta-demo
+version: '0.1.0.0'
+category: Parsing
+author: MinhTu Thomas Hoang
+maintainer: minhtu.hoang19@gmail.com
+copyright: 2021 MinhTu Thomas Hoang
+
+extra-source-files:
+  - README.md
+dependencies:
+  - base >=4.7 && <5
+  - trifecta
+  - parsers
+  - raw-strings-qq
+
+ghc-options: 
+  - -ddump-splices # to see what a quasiquoter or Template Haskell generating at compile-time
+
+executables:
+  trifecta-demo:
+    main: Main.hs
+    source-dirs: src

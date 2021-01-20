@@ -73,6 +73,10 @@ traverse :: (a -> f b) -> t a -> f (t b)
 </tbody>
 </table>
 
+## Other Learning Resources 
+
+- [An understandable explanation](https://stackoverflow.com/a/7461112/6347365) on `traverse`
+
 ## Recorded Errors & Misconceptions During Doing Exercises
 
 - In chapter exercises:
