@@ -11,15 +11,26 @@ import AlternativeParsing (
   , parserDecimalOrFraction 
   , pureParserFraction
   )
+import ParsingPractice (
+    stop
+  , testParse
+  , testParse123
+  , testEOF
+  , parseStringUsingChars
+  ) 
+import ParsingConfigFile (
+    parseINI
+  , parseSection 
+  , parseHeader
+  , parseAssignment
+  , skipComments
+  , sampleStr
+  ) 
 
-import Text.Parser.Char ( CharParsing )
-import Text.Parser.Combinators ( eof, choice )
-import Text.Trifecta ( 
-    Parser
-  , unexpected
-  , parseString
-  , char
-  , string 
+import Text.Trifecta (
+    parseString
+  , parseByteString
+  , char 
   )
 
 main :: IO ()
@@ -47,33 +58,7 @@ main = do
   putStrLn "✎✎✎✎✎✎✎✎✎✎ EXERCIES: Try Try ✎✎✎✎✎✎✎✎✎✎"
   let parseDecOrFrac = parseString parserDecimalOrFraction mempty
   print $ parseDecOrFrac "45/23"
-
-stop :: Parser a
-stop = unexpected "stop"
-
-testParse :: Parser Char -> IO ()
-testParse p = print $ parseString p mempty "hi"
-                                --  ^ monoidal parsing allows more possibilities of polymorphism
-
-{- EXERCISES: PARSING PRACTICE -}
-
-testEOF :: String -> IO ()
-testEOF xs = print $ parseString (char 'h' >> char 'i' >> eof) mempty xs
-
-testParse123 :: String -> IO ()
-testParse123 xs = print $ parseString p mempty xs
-  where 
-    -- p = string "123" <|> string "12" <|> string "1"
-    p = choice [string "123", string "12", string "1"]
-      
-parseStringUsingChars :: String -- ^parser literal 
-                      -> String -- ^string to be parse
-                      -> IO ()
-parseStringUsingChars cs xs = print $ parseString (mkPstring cs) mempty xs
-  where 
-    mkPstring :: (Monad f , CharParsing f) => [Char] -> f [Char]
-    mkPstring = mapM char
-             -- traverse char :: (Traversable t, Text.Parser.Char.CharParsing f) =>
-             --                   t Char -> f (t Char)
-             -- mapM char :: (Monad m, Traversable t, CharParsing m) => t Char -> m (t Char)
-
+  print $ parseDecOrFrac "23.4"
+  putStrLn "✎✎✎✎✎✎✎✎✎✎ Parse INI Config File ✎✎✎✎✎✎✎✎✎✎"
+  print $ parseByteString parseSection mempty sampleStr
+  print $ parseByteString parseINI mempty sampleStr

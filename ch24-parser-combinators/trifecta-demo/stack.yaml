@@ -40,7 +40,10 @@ packages:
 # These entries can reference officially published versions as well as
 # forks / in-progress versions pinned to a git hash. For example:
 extra-deps:
+  - bytestring-0.10.6.0
+  - containers-0.5.6.2
   - raw-strings-qq-1.1
+  - text-1.2.2.2
   - trifecta-1.5.2
 # extra-deps: []
 

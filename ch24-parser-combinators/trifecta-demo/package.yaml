@@ -9,9 +9,12 @@ extra-source-files:
   - README.md
 dependencies:
   - base >=4.7 && <5
+  - containers
   - trifecta
   - parsers
   - raw-strings-qq
+  - bytestring
+  - text
 
 ghc-options: 
   - -ddump-splices # to see what a quasiquoter or Template Haskell generating at compile-time

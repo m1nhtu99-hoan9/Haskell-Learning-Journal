@@ -29,7 +29,8 @@ data Name =
     Name String
     deriving (Show, Eq)
 
-main = do 
+mainAlternative :: IO ()
+mainAlternative = do 
     let p f i = parseString f mempty i
     print $ p parserNumberOrString strQQ
     print $ p (some parserNumberOrString) strQQ
