@@ -25,6 +25,7 @@ library:
   # generated-exposed-modules: Builds_trifecta_demo
   exposed-modules:
     - ChapterExercises.SemVer 
+    - ChapterExercises.ParsePhoneNum
 
 executables:
   trifecta-demo:
