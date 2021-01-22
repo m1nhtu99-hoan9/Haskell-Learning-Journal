@@ -26,6 +26,9 @@ import ParsingConfigFile (
   , skipComments
   , sampleStr
   ) 
+import ChapterExercises.SemVer (
+    SemVer
+  )
 
 import Text.Trifecta (
     parseString

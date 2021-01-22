@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f83cf62f6db590c6e1bc268dcb1b4410e8ff88172e5caa98985e3f6891de25ae
+-- hash: 501e77ca881ff6a873d5bb272a66ddd0cec60fa4a2918c77af55f42ac49d5472
 
 name:           trifecta-demo
 version:        0.1.0.0
@@ -18,22 +18,43 @@ build-type:     Simple
 extra-source-files:
     README.md
 
-executable trifecta-demo
-  main-is: Main.hs
+library
+  exposed-modules:
+      ChapterExercises.SemVer
   other-modules:
-      AlternativeParsing
-      ParsingConfigFile
-      ParsingPractice
       Paths_trifecta_demo
   hs-source-dirs:
-      src
+      ./src
   ghc-options: -ddump-splices
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , bytestring
     , containers
     , parsers
     , raw-strings-qq
     , text
     , trifecta
+  default-language: Haskell2010
+
+executable trifecta-demo
+  main-is: Main.hs
+  other-modules:
+      AlternativeParsing
+      Marshalling
+      ParsingConfigFile
+      ParsingPractice
+  hs-source-dirs:
+      ./src/main
+  ghc-options: -ddump-splices
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , parsers
+    , raw-strings-qq
+    , text
+    , trifecta
+    , trifecta-demo
   default-language: Haskell2010

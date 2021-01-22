@@ -9,6 +9,7 @@ extra-source-files:
   - README.md
 dependencies:
   - base >=4.7 && <5
+  - aeson
   - containers
   - trifecta
   - parsers
@@ -19,7 +20,25 @@ dependencies:
 ghc-options: 
   - -ddump-splices # to see what a quasiquoter or Template Haskell generating at compile-time
 
+library:
+  source-dirs: ./src
+  # generated-exposed-modules: Builds_trifecta_demo
+  exposed-modules:
+    - ChapterExercises.SemVer 
+
 executables:
   trifecta-demo:
     main: Main.hs
-    source-dirs: src
+    source-dirs: ./src/main
+    # generated-other-modules: Paths_trifecta_demo
+    dependencies:
+      # specify that this project's library is a dependency of this executable
+      - trifecta-demo
+    other-modules:
+      - AlternativeParsing
+      - Marshalling
+      - ParsingConfigFile
+      - ParsingPractice
+      # - Builds_trifecta_demo
+    
+    
