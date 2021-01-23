@@ -2,6 +2,8 @@
 
 ## Reading Notes
 
+`[Work in Progress]`
+
 ### Revision
 
 - Lambda calculus: 
