@@ -1,4 +1,4 @@
-# Chapter 24: Composing Types
+# Chapter 25: Composing Types
 
 ## Reading Notes
 
@@ -6,6 +6,7 @@
 
 - `newtype` has underlying representation identical to the type it represents
 - `fmap . fmap` technique to apply a unary function `f` to multiple functorial structure.
+- `>>=` is `fmap` composed with `join` under the hood
 - *Functors* and *Applicatives* are both closed under composition, which means that 2 functors (or 2 applicatives) can be composed to produce another functor (or applicative).
 
 ### `Identity` and `Compose`
@@ -37,15 +38,9 @@ Compose [Just "hello", Nothing, Just "types"]
 
 ```
 
-- Composing 2 monads doesn't give another monad
-- `Identity` and `Compose` types
-- Mannipulate types until we can make monads compose
-- Meet some common monad transformers
-- `Identity` crisis
-
 ## Recorded Errors & Misconceptions During Doing Exercises
 
-- In intermission exercise of writing `Applicative` instance for `Compose f g`:
+- In intermission exercise of writing `Applicative` and `Traversable` instance for `Compose f g`:
 
 ```haskell
 instance (Applicative f, Applicative g) => Applicative (Compose f g) where 
@@ -53,6 +48,11 @@ instance (Applicative f, Applicative g) => Applicative (Compose f g) where
           -> Compose f g a
           -> Compose f g b
     Compose fgh <*> Compose fga = Compose $ ((<*>) . (<*>)) fgh fga
+
+instance (Traversable f, Traversable g) => Traversable (Compose f g) where
+    traverse :: Applicative p => (a -> p b) -> Compose f g a -> p (Compose f g b)
+    traverse p0 (Compose fga) = Compose $ traverse (traverse p0) fga
+    -- lead to error "cannot construct the infinite type: p ~ Compose p f"
 ```
 
 
