@@ -1,0 +1,25 @@
+name: MonadTransDemo
+version: '0.1.0.0'
+category: Web
+author: MinhTu Thomas Hoang
+copyright: 2021 MinhTu Thomas Hoang
+
+extra-source-files:
+- README.md
+dependencies:
+  - base >=4.7 && <5
+
+library: 
+  source-dirs: src
+  exposed-modules: 
+    - EitherT
+    - ReaderT
+    - StateT
+    - MonadTrans
+
+executables:
+  monad-trans-demo:
+    main: Main.hs
+    source-dirs: .
+    dependencies:
+      - MonadTransDemo

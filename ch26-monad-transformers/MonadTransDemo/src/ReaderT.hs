@@ -4,7 +4,7 @@ module ReaderT where
 
 import Control.Applicative ( liftA2 )
 
-newtype ReaerT r m a = 
+newtype ReaderT r m a = 
     ReaderT { runReaderT :: r -> m a }
 
 instance (Functor m) => Functor (ReaderT r m) where
@@ -23,7 +23,7 @@ instance (Applicative m) => Applicative (ReaderT r m) where
 instance (Monad m) => Monad (ReaderT r m) where
     return = pure
 
-    (>>=) :: Reader r m a -> (a -> ReaderT r m b) -> ReaderT r m b
+    (>>=) :: ReaderT r m a -> (a -> ReaderT r m b) -> ReaderT r m b
     (ReaderT rma) >>= fRmb = ReaderT $ \r0 -> do
         rmb <- rma r0 
         --  ^ to retrieve `r -> m a` out of `ReaderT` data constructor and apply it to `r0`

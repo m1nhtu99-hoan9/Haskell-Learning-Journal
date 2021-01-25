@@ -1,0 +1,42 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: e39183397f028d658c77e5a6caf262e07998618abd984316ea841f1139626d22
+
+name:           MonadTransDemo
+version:        0.1.0.0
+category:       Web
+author:         MinhTu Thomas Hoang
+maintainer:     MinhTu Thomas Hoang
+copyright:      2021 MinhTu Thomas Hoang
+build-type:     Simple
+extra-source-files:
+    README.md
+
+library
+  exposed-modules:
+      EitherT
+      ReaderT
+      StateT
+      MonadTrans
+  other-modules:
+      Paths_MonadTransDemo
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable monad-trans-demo
+  main-is: Main.hs
+  other-modules:
+      Paths_MonadTransDemo
+  hs-source-dirs:
+      ./.
+  build-depends:
+      MonadTransDemo
+    , base >=4.7 && <5
+  default-language: Haskell2010

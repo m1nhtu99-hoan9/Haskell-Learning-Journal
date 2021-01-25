@@ -4,15 +4,18 @@ module StateT where
 
 import Control.Applicative ( liftA2 )
 
-newtype ReaerT s m a = 
+newtype StateT s m a = 
     StateT { runStateT :: s -> m (a, s) }
 
 {- STRICT IMPLEMENTATIONS -}
 
 instance (Functor m) => Functor (StateT s m) where
     fmap :: (a -> b) -> StateT s m a -> StateT s m b
-    -- apply `f` to 2 functorial layers of `State` and `m`
-    fmap f (StateT fSma) = StateT $ (fmap . fmap) f fSma
+    -- rely on pattern matching to unwrap `fSma s0`
+    fmap f (StateT fSma) = StateT $ \s0 -> (fT f) <$> (fSma s0)
+      where
+        fT :: (a -> b) -> (a, s) -> (b, s)
+        fT f0 (x0, s1) = (f0 x0, s1) 
 
 -- The expected order-dependent computation for the `StateT Applicative` to have
 -- can't be expressed with having the `Monad` constraint for `m`
@@ -24,6 +27,7 @@ instance (Monad m) => Applicative (StateT s m) where
 
     (<*>) :: StateT s m (a -> b) -> StateT s m a -> StateT s m b
     (StateT smf) <*> (StateT sma) = 
+        -- these threading of computations below requires `m` to be Monad
         StateT $ \s0 -> do
             -- extract `f0` of type `a -> b` as the 1st inner `State`'s monadic computation
             (f0, s1) <- smf s0
@@ -35,10 +39,10 @@ instance (Monad m) => Applicative (StateT s m) where
 instance (Monad m) => Monad (StateT s m) where
     return = pure
 
-    (>>=) :: Reader s m a -> (a -> StateT s m b) -> StateT s m b
+    (>>=) :: StateT s m a -> (a -> StateT s m b) -> StateT s m b
     (StateT sma) >>= fSmb = StateT $ \s0 -> do
         (a0, s1) <- sma s0 
         --  ^ to retrieve `s -> m (a, s)` out of `StateT` data constructor and apply it to `r0`
         --    `<-` bind the `a` out of monadic structure of `m (a, s)` (with the help of pattern matching)
-        runStateT (fSmb smb) s1
+        runStateT (fSmb a0) s1
         --  ^ `fSmb smb` unpack the `s -> m (b, s)`
