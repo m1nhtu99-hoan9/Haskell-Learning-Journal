@@ -31,12 +31,35 @@ type State s a = StateT s Identity a
 
 - When Haskellers say base monad, they usually mean what is structurally outermost
 
-### `MonadTrans` typeclass
+### `MonadTrans` Typeclass
+
+- `MonadTrans` is a design supporting lifting through one layer at a time
 
 ```hs
 class MonadTrans t where
     lift :: (Monad m) => m a -> t m a
 ```
+
+### `MonadIO` Typeclass
+
+- `MonadIO` is a design intending to keep lifting `IO` action over until it's lifted over all structure embedded in the outermost `IO` type.
+- In `transformers` library: in the module `Control.Monad.IO.Class`
+
+```hs
+class (Monad m) => MonadIO m where
+    liftIO :: IO a -> m a
+```
+
+- Laws for `MonadIO` instances:
+  ```hs
+  -- | 1
+  liftIO . return = return
+  -- | 2
+  liftIO (m >>= f) = liftIO m >>= (liftIO . f)
+  ```
+
+
+   
 
 ## Related Learning Resources
 

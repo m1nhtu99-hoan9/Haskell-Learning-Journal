@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e39183397f028d658c77e5a6caf262e07998618abd984316ea841f1139626d22
+-- hash: 4955e787c834528643cd94436b37aecd2db00f712fe0eec16a96875c4b123fdc
 
 name:           MonadTransDemo
 version:        0.1.0.0
@@ -23,11 +23,15 @@ library
       StateT
       MonadTrans
   other-modules:
+      MaybeT
+      MonadIO
       Paths_MonadTransDemo
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , mtl
+    , transformers
   default-language: Haskell2010
 
 executable monad-trans-demo
@@ -39,4 +43,6 @@ executable monad-trans-demo
   build-depends:
       MonadTransDemo
     , base >=4.7 && <5
+    , mtl
+    , transformers
   default-language: Haskell2010

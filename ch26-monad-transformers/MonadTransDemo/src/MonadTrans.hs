@@ -2,13 +2,13 @@
 
 module MonadTrans where
 
+import Control.Monad.Trans.Class
+
 import EitherT 
 import ReaderT
 import StateT 
 
-class MonadTrans t where
-    -- | Lift a computation from the argument monad to the constructed monad
-    lift :: Monad m => m a -> t m a
+{- EXERCISES -}
 
 instance MonadTrans (EitherT e) where
     lift :: Monad m => m a -> EitherT e m a
