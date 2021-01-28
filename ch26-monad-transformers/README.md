@@ -58,9 +58,6 @@ class (Monad m) => MonadIO m where
   liftIO (m >>= f) = liftIO m >>= (liftIO . f)
   ```
 
-
-   
-
 ## Related Learning Resources
 
 - [StackOverflow explanation](https://stackoverflow.com/questions/18673525/is-it-possible-to-implement-applicative-m-applicative-statet-s-m) on why `Applicative (ReaderT s m)` requires a `m` constraint of `Monad m`
