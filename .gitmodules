@@ -1,0 +1,3 @@
+[submodule "ch31-final-project/Haskell-Book-Final-fingerd"]
+	path = ch31-final-project/Haskell-Book-Final-fingerd
+	url = git@github.com:mnhthng-thms/Haskell-Book-Final-fingerd.git
