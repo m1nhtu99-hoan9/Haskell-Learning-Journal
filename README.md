@@ -15,5 +15,5 @@ $ git clone --recursive https://github.com/mnhthng-thms/Haskell-Learning-Journal
 
 ### NOTES
 
-- Due to my packed schedule, I've intended to finish all exercises. Most of the time, I left a chapter at the point when I felt I'd done enough exercises to grasp the concepts. If you stumble upon this repo looking for solution for a chapter exercise, I personally recommend this [`heitor-lassarote`'s repo](https://github.com/heitor-lassarote/haskell-programming-from-first-principles) and this [`BoeingX`'s repo](https://github.com/BoeingX/haskell-programming-from-first-principles)
+- Due to my packed schedule, I've not intended to finish all exercises. Most of the time, I left a chapter at the point when I felt I'd done enough exercises to grasp the concepts. If you stumble upon this repo looking for solution for a chapter exercise, I personally recommend this [`heitor-lassarote`'s repo](https://github.com/heitor-lassarote/haskell-programming-from-first-principles) and this [`BoeingX`'s repo](https://github.com/BoeingX/haskell-programming-from-first-principles)
 - I've not planned to maintain this repo in the near future.
